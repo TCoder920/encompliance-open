@@ -5,7 +5,7 @@ websockets>=12.0
 pydantic==2.11.3
 pydantic-settings==2.9.1
 python-dotenv>=1.2.2
-httpx==0.25.1
+httpx==0.28.1
 python-multipart>=0.0.31
 email-validator==2.0.0
 
