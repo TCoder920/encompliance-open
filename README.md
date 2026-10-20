@@ -1,5 +1,7 @@
 # EnCompliance Open
 
+**Experimental, unfinished prototype undergoing substantial rework.** Many features are incomplete or disconnected; core workflows and automated tests currently fail. This release shares source for collaborative rebuilding and does not establish reliable compliance management. Use synthetic local data only; do not rely on it for regulatory decisions or expose it to an untrusted network.
+
 Childcare compliance management with regulatory documents, facility records, task workflows, and support portals.
 
 Collaborative development is welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).

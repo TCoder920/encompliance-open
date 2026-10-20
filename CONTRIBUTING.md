@@ -8,3 +8,7 @@ Never commit credentials, user data, local databases, logs, or private exports.
 Use synthetic fixtures and mocks. Do not exercise production integrations or place trades.
 Contributions are accepted under AGPL-3.0-only; contribute only code you are authorized to license.
 Pull requests require passing CI. Review by another contributor is encouraged when available.
+
+## Current project state
+
+This is an unfinished prototype being rebuilt. Coordinate changes through small pull requests. The broad legacy suite has known failures; report actual results and avoid treating build or smoke-test success as evidence that core compliance workflows work.

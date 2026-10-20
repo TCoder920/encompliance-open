@@ -1,6 +1,6 @@
-# Private staging validation — 2026-10-20
+# Experimental public release validation — 2026-10-20
 
-**Publication gate is not satisfied. Keep this repository private.**
+**Published as an unfinished prototype with the owner’s explicit acceptance of broken workflows on 2026-10-20.** Security and licensing checks remain required; application completeness is not a publication gate.
 
 - Source selection: approved development branch; clean source copy with fresh history.
 - Python install: passed; vulnerable document/multipart/web-server dependencies updated.
@@ -35,10 +35,22 @@ active-account and OTP policy as the current login route; previously they bypass
 Background integration jobs are disabled by default for local development.
 Training HTML is rendered in a sandboxed iframe without same-origin access.
 
-## Remaining publication blocker
+## Known defects and rebuilding scope
 
 The broad test suite does not establish reliable onboarding, authorization, and core record
 workflows from a fresh database. Test isolation, frontend tests, and the remaining
-failures need validation before this copy can be made public under the requested gate.
+failures require substantial rework before this application can be considered useful or reliable.
 External-service tests and regulator-document fetching were not exercised.
 Third-party regulatory documents retain their original rights; AGPLv3 applies to authorized code.
+
+## Prototype CI policy
+
+Required `test` checks install dependencies, build both web interfaces, start the API, and exercise synthetic login/inactive-account safeguards. Required `secrets` checks scan the full fresh history with Gitleaks. The separate `legacy-tests` job retains the broad backend suite and may fail; its result remains visible and is not a required merge check. No failing tests were converted into passing assertions or removed.
+
+## Remaining dependency advisories and use restrictions
+
+The frontend audit reports **35 high and 8 moderate findings**, primarily through legacy development/test tooling: braces, extract-zip/Cypress, qs, sprintf-js/Jest, and uuid. A compatible `npm audit fix --ignore-scripts` did not resolve these chains. Broad major-version toolchain migrations are deferred to the rebuild. Do not run optional Cypress/download/archive workflows, process untrusted archives/glob patterns through affected tools, or provide credentials to CI. The documented install disables lifecycle scripts.
+
+Python retains python-jose 3.5.0 (`PYSEC-2026-4298`) and ecdsa 0.19.2 (`PYSEC-2026-1325`), with no fixes listed in the audit. Authentication constrains the accepted algorithm; vulnerable pure-Python ECDSA signing is not used. These are disclosed residual advisories, not a clean dependency audit.
+
+Use only synthetic local data on loopback. The incomplete application has not established safe operation with real records, public hosting, cloud integrations, or regulatory decisions. No deployment is provided by this release.
