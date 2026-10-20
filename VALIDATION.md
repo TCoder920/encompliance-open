@@ -12,6 +12,9 @@
   because a reminder-scheduler test did not terminate. This is an incomplete run.
 - Failures included duplicate/shared test-data constraints, outdated authentication expectations,
   and age-assignment tests. The initial frontend test setup referenced missing files.
+- Frontend tests after harness repair: **16 passed, 5 failed; 9 suites failed**, including missing accessibility helpers and ESM configuration errors.
+- Built frontend loopback HTTP startup: passed.
+- GitHub CI: secret scanning passed; core backend job stopped after 10 failures (10 tests passed).
 - Gitleaks: zero findings in the sanitized export.
 
 ## Scope and safeguards
@@ -30,6 +33,7 @@ Required locally generated signing/encryption secrets and removed default shared
 Removed authentication-header/token logging. Legacy login handlers now delegate to the same
 active-account and OTP policy as the current login route; previously they bypassed these checks.
 Background integration jobs are disabled by default for local development.
+Training HTML is rendered in a sandboxed iframe without same-origin access.
 
 ## Remaining publication blocker
 

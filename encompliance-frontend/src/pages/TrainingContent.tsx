@@ -415,9 +415,11 @@ const TrainingContentPage: React.FC = () => {
                         <h4 className="font-medium text-gray-900 dark:text-white mb-3">
                           Interactive Content
                         </h4>
-                        <div 
-                          className="w-full"
-                          dangerouslySetInnerHTML={{ __html: currentMaterial.embed_code }}
+                        <iframe
+                          title="Training material"
+                          className="w-full min-h-80"
+                          sandbox="allow-scripts allow-presentation"
+                          srcDoc={currentMaterial.embed_code}
                         />
                       </div>
                     )}
