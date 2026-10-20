@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b5bd3" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/vite.svg" />
+    <link rel="mask-icon" href="/vite.svg" color="#0b5bd3" />
+
+    <!-- Security Headers (Helmet equivalent) -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <!-- X-Frame-Options removed - only works as HTTP header -->
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+    <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), interest-cohort=()" />
+    
+    <!-- CSP - More permissive for development -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: http:; font-src 'self' https: data:; connect-src 'self' http: https:;"
+    />
+    
+    <title>Encompliance.io</title>
+    <!-- USER APP -->
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  <footer style="padding:0.5rem;text-align:center;font-size:0.8rem"><a href="https://github.com/TCoder920/encompliance-open">Source code</a> · <a href="https://github.com/TCoder920/encompliance-open/blob/main/LICENSE">AGPL-3.0-only</a> · No warranty</footer>
+</body>
+</html> 

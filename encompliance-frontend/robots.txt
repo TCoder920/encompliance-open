@@ -1,0 +1,11 @@
+# Block access to the admin portal
+User-agent: *
+
+# Block access to the admin portal HTML page
+Disallow: /admin.html
+
+# Allow everything else (optional, often default)
+# Allow: /
+
+# Sitemap (if you have one)
+# Sitemap: https://www.encompliance.io/sitemap.xml 

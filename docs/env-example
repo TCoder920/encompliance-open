@@ -1,0 +1,12 @@
+# Database Configuration
+DATABASE_URL=postgresql://postgres:postgres@db:5432/encompliance
+
+# API Configuration
+PORT=8000
+DEBUG=1
+
+# OpenAI Configuration
+OPENAI_API_KEY=your_openai_api_key_here
+
+# Frontend Configuration
+VITE_API_URL=http://localhost:8000 

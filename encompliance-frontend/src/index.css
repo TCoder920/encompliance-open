@@ -1,0 +1,35 @@
+/*
+  Description: Global stylesheet for the frontend application. Configures Tailwind CSS, custom utilities, and base styles.
+  Purpose: Provides consistent styling, utility classes, and font settings across the entire frontend.
+*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-arial;
+  }
+}
+
+@layer utilities {
+  .bg-navy-blue {
+    @apply bg-[#003366];
+  }
+  
+  .text-navy-blue {
+    @apply text-[#003366];
+  }
+  
+  .border-navy-blue {
+    @apply border-[#003366];
+  }
+  
+  .font-times {
+    font-family: 'Times New Roman', Times, serif;
+  }
+  
+  .font-arial {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+}

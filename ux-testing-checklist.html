@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnCompliance UX Testing Checklist</title>
+    <style>
+        :root {
+            --navy-blue: #003366;
+            --light-blue: #e6f7ff;
+            --primary: #1890ff;
+            --success: #52c41a;
+            --warning: #faad14;
+            --error: #f5222d;
+            --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif;
+            --font-times: 'Times New Roman', Times, serif;
+            --dark-bg: #121212;
+            --dark-surface: #1e1e1e;
+            --dark-border: #333333;
+            --dark-text: #e0e0e0;
+            --dark-primary: #3B82F6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: #f0f2f5;
+            color: rgba(0, 0, 0, 0.85);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            line-height: 1.6;
+        }
+
+        body.dark {
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+        }
+
+        /* Header */
+        header {
+            background-color: var(--navy-blue);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        body.dark header {
+            background-color: var(--dark-surface);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-family: var(--font-times);
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--navy-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        body.dark .page-title {
+            color: var(--dark-text);
+        }
+
+        .page-subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        body.dark .page-subtitle {
+            color: #999;
+        }
+
+        /* Section Cards */
+        .section {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        body.dark .section {
+            background: var(--dark-surface);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--navy-blue);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        body.dark .section-title {
+            color: var(--dark-text);
+            border-bottom-color: var(--dark-border);
+        }
+
+        .subsection {
+            margin-top: 1.5rem;
+            margin-left: 1rem;
+        }
+
+        .subsection-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        body.dark .subsection-title {
+            color: var(--dark-text);
+        }
+
+        .role-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-left: 0.5rem;
+        }
+
+        body.dark .role-badge {
+            background: var(--dark-primary);
+        }
+
+        /* Checklist Items */
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        body.dark .checklist-item {
+            border-bottom-color: var(--dark-border);
+        }
+
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 0.75rem;
+            margin-top: 0.1rem;
+            cursor: pointer;
+            accent-color: var(--navy-blue);
+            flex-shrink: 0;
+        }
+
+        body.dark .checklist-item input[type="checkbox"] {
+            accent-color: var(--dark-primary);
+        }
+
+        .checklist-item label {
+            flex: 1;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .checklist-item:hover {
+            background-color: #f9f9f9;
+            margin-left: -0.5rem;
+            margin-right: -0.5rem;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            border-radius: 4px;
+        }
+
+        body.dark .checklist-item:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Progress Bar */
+        .progress-section {
+            position: sticky;
+            top: 0;
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            z-index: 10;
+        }
+
+        body.dark .progress-section {
+            background: var(--dark-surface);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 24px;
+            background: #e0e0e0;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        body.dark .progress-bar {
+            background: var(--dark-border);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--navy-blue), var(--primary));
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        body.dark .progress-fill {
+            background: linear-gradient(90deg, var(--dark-primary), #60a5fa);
+        }
+
+        .progress-text {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        body.dark .progress-text {
+            color: #999;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--navy-blue);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            transition: background-color 0.3s ease;
+        }
+
+        body.dark footer {
+            background-color: var(--dark-surface);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: var(--font-times);
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Print Styles */
+        @media print {
+            header, footer, .theme-toggle, .progress-section {
+                display: none;
+            }
+            .section {
+                page-break-inside: avoid;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            .section {
+                padding: 1rem;
+            }
+            .page-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">🛡️ EnCompliance.io</div>
+            <button class="theme-toggle" onclick="toggleTheme()">🌓 Toggle Theme</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="progress-section">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="margin: 0; color: var(--navy-blue);">Testing Progress</h3>
+                <span class="progress-text" id="progressText">0% Complete</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%;">0%</div>
+            </div>
+        </div>
+
+        <h1 class="page-title">EnCompliance UX Testing Checklist</h1>
+        <p class="page-subtitle">Comprehensive manual testing checklist for all completed features</p>
+
+        <div class="section">
+            <h2 class="section-title">Prerequisites</h2>
+            <div class="checklist-item">
+                <input type="checkbox" id="preq1" onchange="updateProgress()">
+                <label for="preq1">Log in as Facility Administrator (Pro tier)</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="preq2" onchange="updateProgress()">
+                <label for="preq2">Log in as Staff Member (regular user)</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="preq3" onchange="updateProgress()">
+                <label for="preq3">Log in as Enterprise Manager (if applicable)</label>
+            </div>
+            <div class="checklist-item">
+                <input type="checkbox" id="preq4" onchange="updateProgress()">
+                <label for="preq4">Verify multi-facility setup (if testing enterprise features)</label>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">PRO TIER FEATURES</h2>
+
+            <div class="subsection">
+                <h3 class="subsection-title">1. Policy & Document Management</h3>
+                <p style="margin-bottom: 0.75rem; color: #666;"><strong>As Facility Administrator:</strong></p>
+                <div class="checklist-item">
+                    <input type="checkbox" id="p1" onchange="updateProgress()">
+                    <label for="p1">Navigate to Policy Management page</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="p2" onchange="updateProgress()">
+                    <label for="p2">Upload a new policy document (PDF/DOC)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="p3" onchange="updateProgress()">
+                    <label for="p3">Verify document appears in policy library</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="p4" onchange="updateProgress()">
+                    <label for="p4">Edit/update an existing policy</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="p5" onchange="updateProgress()">
+                    <label for="p5">Create a new version of a policy</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="p6" onchange="updateProgress()">
+                    <label for="p6">Search/filter policies by name, category, date</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="p7" onchange="updateProgress()">
+                    <label for="p7">Assign a policy to specific staff members</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="p8" onchange="updateProgress()">
+                    <label for="p8">Assign a policy to all staff</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="p9" onchange="updateProgress()">
+                    <label for="p9">Set acknowledgment requirements (required/optional)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="p10" onchange="updateProgress()">
+                    <label for="p10">View acknowledgment status dashboard</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="p11" onchange="updateProgress()">
+                    <label for="p11">Preview policy document before assigning</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="p12" onchange="updateProgress()">
+                    <label for="p12">Verify read receipt timestamps are tracked</label>
+                </div>
+
+                <p style="margin-top: 1rem; margin-bottom: 0.75rem; color: #666;"><strong>As Staff Member:</strong></p>
+                <div class="checklist-item">
+                    <input type="checkbox" id="p13" onchange="updateProgress()">
+                    <label for="p13">Navigate to Policy Acknowledgment page</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="p14" onchange="updateProgress()">
+                    <label for="p14">View list of assigned policies</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="p15" onchange="updateProgress()">
+                    <label for="p15">See status indicators (unread/read/acknowledged)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="p16" onchange="updateProgress()">
+                    <label for="p16">Open and read a policy document</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="p17" onchange="updateProgress()">
+                    <label for="p17">Acknowledge a required policy</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="p18" onchange="updateProgress()">
+                    <label for="p18">Verify acknowledgment is recorded</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="p19" onchange="updateProgress()">
+                    <label for="p19">Check notification for new policy assignments</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="p20" onchange="updateProgress()">
+                    <label for="p20">Filter policies by status (pending/completed)</label>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">2. Staff Scheduling</h3>
+                <p style="margin-bottom: 0.75rem; color: #666;"><strong>As Facility Administrator:</strong></p>
+                <div class="checklist-item">
+                    <input type="checkbox" id="s1" onchange="updateProgress()">
+                    <label for="s1">Navigate to Scheduling page</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="s2" onchange="updateProgress()">
+                    <label for="s2">View calendar in daily view</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="s3" onchange="updateProgress()">
+                    <label for="s3">Switch to weekly view</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="s4" onchange="updateProgress()">
+                    <label for="s4">Switch to monthly view</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="s5" onchange="updateProgress()">
+                    <label for="s5">Create a new shift assignment</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="s6" onchange="updateProgress()">
+                    <label for="s6">Use quick shift builder</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="s7" onchange="updateProgress()">
+                    <label for="s7">Create recurring shift pattern</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="s8" onchange="updateProgress()">
+                    <label for="s8">Edit an existing shift</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="s9" onchange="updateProgress()">
+                    <label for="s9">Delete a shift</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="s10" onchange="updateProgress()">
+                    <label for="s10">View conflict warnings (overlapping shifts)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="s11" onchange="updateProgress()">
+                    <label for="s11">Review time-off requests</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="s12" onchange="updateProgress()">
+                    <label for="s12">Approve/deny time-off request</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="s13" onchange="updateProgress()">
+                    <label for="s13">View shift swap requests</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="s14" onchange="updateProgress()">
+                    <label for="s14">Approve shift swap</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="s15" onchange="updateProgress()">
+                    <label for="s15">Check scheduling analytics/status dashboard</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="s16" onchange="updateProgress()">
+                    <label for="s16">Verify calendar sync (if Google Calendar integrated)</label>
+                </div>
+
+                <p style="margin-top: 1rem; margin-bottom: 0.75rem; color: #666;"><strong>As Staff Member:</strong></p>
+                <div class="checklist-item">
+                    <input type="checkbox" id="s17" onchange="updateProgress()">
+                    <label for="s17">View personal schedule</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="s18" onchange="updateProgress()">
+                    <label for="s18">Request time off</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="s19" onchange="updateProgress()">
+                    <label for="s19">Request shift swap with another staff member</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="s20" onchange="updateProgress()">
+                    <label for="s20">View availability calendar</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="s21" onchange="updateProgress()">
+                    <label for="s21">Update availability preferences</label>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">3. AI-Powered Form Assistance</h3>
+                <p style="margin-bottom: 0.75rem; color: #666;"><strong>As Facility Administrator:</strong></p>
+                <div class="checklist-item">
+                    <input type="checkbox" id="ai1" onchange="updateProgress()">
+                    <label for="ai1">Navigate to AI Assistant Hub</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="ai2" onchange="updateProgress()">
+                    <label for="ai2">Access Form Assistant section</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="ai3" onchange="updateProgress()">
+                    <label for="ai3">Select a compliance form type</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="ai4" onchange="updateProgress()">
+                    <label for="ai4">Request AI to pre-fill form</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="ai5" onchange="updateProgress()">
+                    <label for="ai5">Verify AI suggestions appear</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="ai6" onchange="updateProgress()">
+                    <label for="ai6">Review suggested content from regulations</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="ai7" onchange="updateProgress()">
+                    <label for="ai7">Review historical input suggestions</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="ai8" onchange="updateProgress()">
+                    <label for="ai8">Accept/reject AI suggestions</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="ai9" onchange="updateProgress()">
+                    <label for="ai9">Edit AI-generated content</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="ai10" onchange="updateProgress()">
+                    <label for="ai10">Submit completed form</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="ai11" onchange="updateProgress()">
+                    <label for="ai11">Verify form is saved correctly</label>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">4. Team Communication Tools</h3>
+                <p style="margin-bottom: 0.75rem; color: #666;"><strong>As Facility Administrator:</strong></p>
+                <div class="checklist-item">
+                    <input type="checkbox" id="tc1" onchange="updateProgress()">
+                    <label for="tc1">Navigate to Team Communication page</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="tc2" onchange="updateProgress()">
+                    <label for="tc2">View channel list (Slack-like interface)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="tc3" onchange="updateProgress()">
+                    <label for="tc3">Create a new channel</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="tc4" onchange="updateProgress()">
+                    <label for="tc4">Join/leave channels</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="tc5" onchange="updateProgress()">
+                    <label for="tc5">Send a message in a channel</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="tc6" onchange="updateProgress()">
+                    <label for="tc6">Reply to a message (thread)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="tc7" onchange="updateProgress()">
+                    <label for="tc7">Mention a user (@username)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="tc8" onchange="updateProgress()">
+                    <label for="tc8">Upload attachment to message</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="tc9" onchange="updateProgress()">
+                    <label for="tc9">View attachment preview</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="tc10" onchange="updateProgress()">
+                    <label for="tc10">Check unread message counts</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="tc11" onchange="updateProgress()">
+                    <label for="tc11">See typing indicators (if implemented)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="tc12" onchange="updateProgress()">
+                    <label for="tc12">Send direct message (DM) to staff member</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="tc13" onchange="updateProgress()">
+                    <label for="tc13">Search messages/channels</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="tc14" onchange="updateProgress()">
+                    <label for="tc14">Verify notifications for mentions/new messages</label>
+                </div>
+
+                <p style="margin-top: 1rem; margin-bottom: 0.75rem; color: #666;"><strong>As Staff Member:</strong></p>
+                <div class="checklist-item">
+                    <input type="checkbox" id="tc15" onchange="updateProgress()">
+                    <label for="tc15">Access team communication channels</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="tc16" onchange="updateProgress()">
+                    <label for="tc16">Post messages in assigned channels</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="tc17" onchange="updateProgress()">
+                    <label for="tc17">Receive notifications for mentions</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="tc18" onchange="updateProgress()">
+                    <label for="tc18">View message history</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="tc19" onchange="updateProgress()">
+                    <label for="tc19">Download attachments</label>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">5. Email Campaigns to Staff</h3>
+                <p style="margin-bottom: 0.75rem; color: #666;"><strong>As Facility Administrator:</strong></p>
+                <div class="checklist-item">
+                    <input type="checkbox" id="em1" onchange="updateProgress()">
+                    <label for="em1">Navigate to email campaign section (in Team Communication page)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="em2" onchange="updateProgress()">
+                    <label for="em2">Open email composer</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="em3" onchange="updateProgress()">
+                    <label for="em3">Select email template (assignment/training/certification)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="em4" onchange="updateProgress()">
+                    <label for="em4">Customize template content</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="em5" onchange="updateProgress()">
+                    <label for="em5">Preview email before sending</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="em6" onchange="updateProgress()">
+                    <label for="em6">Select target recipients (individual/bulk/facility-wide)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="em7" onchange="updateProgress()">
+                    <label for="em7">Send email campaign</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="em8" onchange="updateProgress()">
+                    <label for="em8">View delivery status</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="em9" onchange="updateProgress()">
+                    <label for="em9">Check sent email history</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="em10" onchange="updateProgress()">
+                    <label for="em10">Verify email appears in staff inboxes (if integrated)</label>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">6. Multimodal AI Chat (Image & Audio)</h3>
+                <p style="margin-bottom: 0.75rem; color: #666;"><strong>As Facility Administrator:</strong></p>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mm1" onchange="updateProgress()">
+                    <label for="mm1">Navigate to AI Assistant Hub</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mm2" onchange="updateProgress()">
+                    <label for="mm2">Access multimodal chat section</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mm3" onchange="updateProgress()">
+                    <label for="mm3">Upload an image file (drag & drop)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mm4" onchange="updateProgress()">
+                    <label for="mm4">Verify image preview appears</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mm5" onchange="updateProgress()">
+                    <label for="mm5">Send image with question to AI</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mm6" onchange="updateProgress()">
+                    <label for="mm6">Receive AI response about image</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mm7" onchange="updateProgress()">
+                    <label for="mm7">Record audio message</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mm8" onchange="updateProgress()">
+                    <label for="mm8">Verify audio recording indicator</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mm9" onchange="updateProgress()">
+                    <label for="mm9">Send audio message</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mm10" onchange="updateProgress()">
+                    <label for="mm10">Verify audio transcription appears</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mm11" onchange="updateProgress()">
+                    <label for="mm11">Check audio playback functionality</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mm12" onchange="updateProgress()">
+                    <label for="mm12">Verify captions/translation for audio</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mm13" onchange="updateProgress()">
+                    <label for="mm13">Test progress indicators during upload/processing</label>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">7. Spanish Language Translation</h3>
+                <p style="margin-bottom: 0.75rem; color: #666;"><strong>As Any User:</strong></p>
+                <div class="checklist-item">
+                    <input type="checkbox" id="lang1" onchange="updateProgress()">
+                    <label for="lang1">Locate language toggle in Header/Footer</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="lang2" onchange="updateProgress()">
+                    <label for="lang2">Switch interface to Spanish</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="lang3" onchange="updateProgress()">
+                    <label for="lang3">Verify all UI elements translate</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="lang4" onchange="updateProgress()">
+                    <label for="lang4">Navigate through different pages in Spanish</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="lang5" onchange="updateProgress()">
+                    <label for="lang5">Switch back to English</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="lang6" onchange="updateProgress()">
+                    <label for="lang6">Verify preference persists after page refresh</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="lang7" onchange="updateProgress()">
+                    <label for="lang7">Test translation on: Navigation menu</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="lang8" onchange="updateProgress()">
+                    <label for="lang8">Test translation on: Form labels</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="lang9" onchange="updateProgress()">
+                    <label for="lang9">Test translation on: Button text</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="lang10" onchange="updateProgress()">
+                    <label for="lang10">Test translation on: Error messages</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="lang11" onchange="updateProgress()">
+                    <label for="lang11">Test translation on: Policy documents (if applicable)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="lang12" onchange="updateProgress()">
+                    <label for="lang12">Test translation on: AI responses (if applicable)</label>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">8. Google OAuth Setup</h3>
+                <p style="margin-bottom: 0.75rem; color: #666;"><strong>As Facility Administrator:</strong></p>
+                <div class="checklist-item">
+                    <input type="checkbox" id="go1" onchange="updateProgress()">
+                    <label for="go1">Navigate to Google OAuth Setup page</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="go2" onchange="updateProgress()">
+                    <label for="go2">View setup instructions</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="go3" onchange="updateProgress()">
+                    <label for="go3">Verify client ID configuration display</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="go4" onchange="updateProgress()">
+                    <label for="go4">Check redirect URI settings</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="go5" onchange="updateProgress()">
+                    <label for="go5">Test Google Calendar integration (if applicable)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="go6" onchange="updateProgress()">
+                    <label for="go6">Verify OAuth connection status</label>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">9. Data Import</h3>
+                <p style="margin-bottom: 0.75rem; color: #666;"><strong>As Facility Administrator:</strong></p>
+                <div class="checklist-item">
+                    <input type="checkbox" id="di1" onchange="updateProgress()">
+                    <label for="di1">Navigate to Data Import page</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="di2" onchange="updateProgress()">
+                    <label for="di2">Open import wizard</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="di3" onchange="updateProgress()">
+                    <label for="di3">Select import file (JSON/CSV/PDF)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="di4" onchange="updateProgress()">
+                    <label for="di4">Upload file</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="di5" onchange="updateProgress()">
+                    <label for="di5">Review import preview</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="di6" onchange="updateProgress()">
+                    <label for="di6">Verify data mapping is correct</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="di7" onchange="updateProgress()">
+                    <label for="di7">Run dry-run mode (if available)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="di8" onchange="updateProgress()">
+                    <label for="di8">Review dry-run results</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="di9" onchange="updateProgress()">
+                    <label for="di9">Execute actual import</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="di10" onchange="updateProgress()">
+                    <label for="di10">Monitor import progress</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="di11" onchange="updateProgress()">
+                    <label for="di11">Handle import errors (if any)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="di12" onchange="updateProgress()">
+                    <label for="di12">Verify imported data appears correctly</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="di13" onchange="updateProgress()">
+                    <label for="di13">Check data integrity after import</label>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">10. Automated Customer Service</h3>
+                <p style="margin-bottom: 0.75rem; color: #666;"><strong>As Facility Administrator:</strong></p>
+                <div class="checklist-item">
+                    <input type="checkbox" id="cs1" onchange="updateProgress()">
+                    <label for="cs1">Navigate to AI Assistant Hub</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="cs2" onchange="updateProgress()">
+                    <label for="cs2">Access Customer Service triage form</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="cs3" onchange="updateProgress()">
+                    <label for="cs3">Submit a support ticket</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="cs4" onchange="updateProgress()">
+                    <label for="cs4">Verify AI analyzes ticket</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="cs5" onchange="updateProgress()">
+                    <label for="cs5">Check AI resolution proposal (first attempt)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="cs6" onchange="updateProgress()">
+                    <label for="cs6">Accept AI resolution</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="cs7" onchange="updateProgress()">
+                    <label for="cs7">Test rejection of AI resolution</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="cs8" onchange="updateProgress()">
+                    <label for="cs8">Verify second AI attempt appears</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="cs9" onchange="updateProgress()">
+                    <label for="cs9">Test escalation to human after 2 attempts</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="cs10" onchange="updateProgress()">
+                    <label for="cs10">Review AI action dashboard</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="cs11" onchange="updateProgress()">
+                    <label for="cs11">Test rollback functionality (if applicable)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="cs12" onchange="updateProgress()">
+                    <label for="cs12">Verify audit trail for AI actions</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">ENTERPRISE FEATURES</h2>
+
+            <div class="subsection">
+                <h3 class="subsection-title">1. Role-Based Access Control (RBAC)</h3>
+                <p style="margin-bottom: 0.75rem; color: #666;"><strong>As Enterprise Manager:</strong></p>
+                <div class="checklist-item">
+                    <input type="checkbox" id="rbac1" onchange="updateProgress()">
+                    <label for="rbac1">Navigate to Enterprise Console</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="rbac2" onchange="updateProgress()">
+                    <label for="rbac2">Access Role Management section</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="rbac3" onchange="updateProgress()">
+                    <label for="rbac3">View existing roles</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="rbac4" onchange="updateProgress()">
+                    <label for="rbac4">Create a new role</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="rbac5" onchange="updateProgress()">
+                    <label for="rbac5">Edit role permissions</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="rbac6" onchange="updateProgress()">
+                    <label for="rbac6">View permission matrix</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="rbac7" onchange="updateProgress()">
+                    <label for="rbac7">Assign role to user</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="rbac8" onchange="updateProgress()">
+                    <label for="rbac8">Assign role at org level</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="rbac9" onchange="updateProgress()">
+                    <label for="rbac9">Assign role at facility level</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="rbac10" onchange="updateProgress()">
+                    <label for="rbac10">Assign role at team level</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="rbac11" onchange="updateProgress()">
+                    <label for="rbac11">Test role restrictions in UI (verify guardrails work)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="rbac12" onchange="updateProgress()">
+                    <label for="rbac12">Verify users can only access permitted features</label>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">2. Multi-Facility Management</h3>
+                <p style="margin-bottom: 0.75rem; color: #666;"><strong>As Enterprise Manager:</strong></p>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mf1" onchange="updateProgress()">
+                    <label for="mf1">Navigate to Enterprise Console</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mf2" onchange="updateProgress()">
+                    <label for="mf2">View organization switcher</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mf3" onchange="updateProgress()">
+                    <label for="mf3">Switch between facilities</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mf4" onchange="updateProgress()">
+                    <label for="mf4">View facility overview roll-ups</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mf5" onchange="updateProgress()">
+                    <label for="mf5">Verify data segregation (facility A data not visible in facility B)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mf6" onchange="updateProgress()">
+                    <label for="mf6">Test cross-facility admin scopes</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mf7" onchange="updateProgress()">
+                    <label for="mf7">Verify facility hierarchy display</label>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">3. Cross-Facility Reporting & Analytics</h3>
+                <p style="margin-bottom: 0.75rem; color: #666;"><strong>As Enterprise Manager:</strong></p>
+                <div class="checklist-item">
+                    <input type="checkbox" id="anal1" onchange="updateProgress()">
+                    <label for="anal1">Navigate to Analytics section in Enterprise Console</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="anal2" onchange="updateProgress()">
+                    <label for="anal2">View executive dashboard</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="anal3" onchange="updateProgress()">
+                    <label for="anal3">Check KPIs across all facilities</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="anal4" onchange="updateProgress()">
+                    <label for="anal4">Apply filters (date range, facility, metric type)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="anal5" onchange="updateProgress()">
+                    <label for="anal5">Drill down into specific facility metrics</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="anal6" onchange="updateProgress()">
+                    <label for="anal6">Export analytics report</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="anal7" onchange="updateProgress()">
+                    <label for="anal7">Schedule report delivery (if available)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="anal8" onchange="updateProgress()">
+                    <label for="anal8">Verify cached data loads quickly</label>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">4. Centralized Policy & Training Distribution</h3>
+                <p style="margin-bottom: 0.75rem; color: #666;"><strong>As Enterprise Manager:</strong></p>
+                <div class="checklist-item">
+                    <input type="checkbox" id="dist1" onchange="updateProgress()">
+                    <label for="dist1">Navigate to Policy Distribution section</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="dist2" onchange="updateProgress()">
+                    <label for="dist2">Access distribution console</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="dist3" onchange="updateProgress()">
+                    <label for="dist3">Select policy/training to distribute</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="dist4" onchange="updateProgress()">
+                    <label for="dist4">Choose target facilities (single/multiple)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="dist5" onchange="updateProgress()">
+                    <label for="dist5">Create distribution job</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="dist6" onchange="updateProgress()">
+                    <label for="dist6">Monitor distribution status</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="dist7" onchange="updateProgress()">
+                    <label for="dist7">View rollout progress across facilities</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="dist8" onchange="updateProgress()">
+                    <label for="dist8">Check compliance tracking</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="dist9" onchange="updateProgress()">
+                    <label for="dist9">Handle exceptions/remediation</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="dist10" onchange="updateProgress()">
+                    <label for="dist10">View distribution alerts</label>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">6. Staff Directory & Assignment</h3>
+                <p style="margin-bottom: 0.75rem; color: #666;"><strong>As Enterprise Manager:</strong></p>
+                <div class="checklist-item">
+                    <input type="checkbox" id="sd1" onchange="updateProgress()">
+                    <label for="sd1">Navigate to Staff Directory page</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="sd2" onchange="updateProgress()">
+                    <label for="sd2">View org-wide staff directory</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="sd3" onchange="updateProgress()">
+                    <label for="sd3">Search staff by name/role/facility</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="sd4" onchange="updateProgress()">
+                    <label for="sd4">View staff member details</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="sd5" onchange="updateProgress()">
+                    <label for="sd5">Assign staff to facility</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="sd6" onchange="updateProgress()">
+                    <label for="sd6">Transfer staff between facilities</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="sd7" onchange="updateProgress()">
+                    <label for="sd7">Perform bulk operations (if available)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="sd8" onchange="updateProgress()">
+                    <label for="sd8">Verify audit trail for assignments</label>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">7. Enterprise Notifications & Escalations</h3>
+                <p style="margin-bottom: 0.75rem; color: #666;"><strong>As Enterprise Manager:</strong></p>
+                <div class="checklist-item">
+                    <input type="checkbox" id="esc1" onchange="updateProgress()">
+                    <label for="esc1">Navigate to Escalations section in Enterprise Console</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="esc2" onchange="updateProgress()">
+                    <label for="esc2">Access escalation rule builder</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="esc3" onchange="updateProgress()">
+                    <label for="esc3">Create new escalation rule</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="esc4" onchange="updateProgress()">
+                    <label for="esc4">Configure multilevel escalation</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="esc5" onchange="updateProgress()">
+                    <label for="esc5">Set pager schedules</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="esc6" onchange="updateProgress()">
+                    <label for="esc6">Configure SLA policies</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="esc7" onchange="updateProgress()">
+                    <label for="esc7">Test escalation rule</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="esc8" onchange="updateProgress()">
+                    <label for="esc8">View escalations UI</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="esc9" onchange="updateProgress()">
+                    <label for="esc9">Check escalation analytics</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="esc10" onchange="updateProgress()">
+                    <label for="esc10">Verify multichannel delivery (email/SMS/push)</label>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">8. Audit Trail & Activity Logging</h3>
+                <p style="margin-bottom: 0.75rem; color: #666;"><strong>As Enterprise Manager:</strong></p>
+                <div class="checklist-item">
+                    <input type="checkbox" id="audit1" onchange="updateProgress()">
+                    <label for="audit1">Navigate to Audit Log page</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="audit2" onchange="updateProgress()">
+                    <label for="audit2">View audit log entries</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="audit3" onchange="updateProgress()">
+                    <label for="audit3">Filter logs by: User</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="audit4" onchange="updateProgress()">
+                    <label for="audit4">Filter logs by: Action type</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="audit5" onchange="updateProgress()">
+                    <label for="audit5">Filter logs by: Date range</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="audit6" onchange="updateProgress()">
+                    <label for="audit6">Filter logs by: Facility</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="audit7" onchange="updateProgress()">
+                    <label for="audit7">Search audit logs</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="audit8" onchange="updateProgress()">
+                    <label for="audit8">Export audit log</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="audit9" onchange="updateProgress()">
+                    <label for="audit9">Verify log immutability (cannot edit/delete)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="audit10" onchange="updateProgress()">
+                    <label for="audit10">Check append-only behavior</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="audit11" onchange="updateProgress()">
+                    <label for="audit11">Verify comprehensive action tracking</label>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">9. Enterprise Managers Control Facility Admins</h3>
+                <p style="margin-bottom: 0.75rem; color: #666;"><strong>As Enterprise Manager:</strong></p>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mgmt1" onchange="updateProgress()">
+                    <label for="mgmt1">Navigate to Manager Controls in Enterprise Console</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mgmt2" onchange="updateProgress()">
+                    <label for="mgmt2">View override submission section</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mgmt3" onchange="updateProgress()">
+                    <label for="mgmt3">Submit policy override request</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mgmt4" onchange="updateProgress()">
+                    <label for="mgmt4">Review pending override requests</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mgmt5" onchange="updateProgress()">
+                    <label for="mgmt5">Approve/deny override request</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mgmt6" onchange="updateProgress()">
+                    <label for="mgmt6">View override logs</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mgmt7" onchange="updateProgress()">
+                    <label for="mgmt7">Test permission elevation</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="mgmt8" onchange="updateProgress()">
+                    <label for="mgmt8">Verify approval gates work correctly</label>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">10. Per-Usage AI Payment Feature</h3>
+                <p style="margin-bottom: 0.75rem; color: #666;"><strong>As Enterprise Manager:</strong></p>
+                <div class="checklist-item">
+                    <input type="checkbox" id="bill1" onchange="updateProgress()">
+                    <label for="bill1">Navigate to Usage Billing page</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="bill2" onchange="updateProgress()">
+                    <label for="bill2">View usage dashboard</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="bill3" onchange="updateProgress()">
+                    <label for="bill3">Check token usage metrics</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="bill4" onchange="updateProgress()">
+                    <label for="bill4">Check API call counts</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="bill5" onchange="updateProgress()">
+                    <label for="bill5">View usage alerts</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="bill6" onchange="updateProgress()">
+                    <label for="bill6">Verify usage caps are enforced</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="bill7" onchange="updateProgress()">
+                    <label for="bill7">Review billing summary</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="bill8" onchange="updateProgress()">
+                    <label for="bill8">Check Stripe invoice integration (if applicable)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="bill9" onchange="updateProgress()">
+                    <label for="bill9">Verify usage-based pricing calculations</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">CROSS-CUTTING UX TESTS</h2>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Navigation & Accessibility</h3>
+                <div class="checklist-item">
+                    <input type="checkbox" id="nav1" onchange="updateProgress()">
+                    <label for="nav1">Verify all pages are accessible via navigation menu</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="nav2" onchange="updateProgress()">
+                    <label for="nav2">Test breadcrumb navigation (if implemented)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="nav3" onchange="updateProgress()">
+                    <label for="nav3">Check mobile responsiveness on key pages</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="nav4" onchange="updateProgress()">
+                    <label for="nav4">Test keyboard navigation</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="nav5" onchange="updateProgress()">
+                    <label for="nav5">Verify screen reader compatibility (basic check)</label>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Error Handling</h3>
+                <div class="checklist-item">
+                    <input type="checkbox" id="err1" onchange="updateProgress()">
+                    <label for="err1">Test error messages display clearly</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="err2" onchange="updateProgress()">
+                    <label for="err2">Verify error messages are user-friendly</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="err3" onchange="updateProgress()">
+                    <label for="err3">Test network error handling</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="err4" onchange="updateProgress()">
+                    <label for="err4">Test validation error display on forms</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="err5" onchange="updateProgress()">
+                    <label for="err5">Verify graceful degradation</label>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Performance</h3>
+                <div class="checklist-item">
+                    <input type="checkbox" id="perf1" onchange="updateProgress()">
+                    <label for="perf1">Check page load times</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="perf2" onchange="updateProgress()">
+                    <label for="perf2">Test with large datasets (many policies, staff, etc.)</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="perf3" onchange="updateProgress()">
+                    <label for="perf3">Verify loading indicators appear during async operations</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="perf4" onchange="updateProgress()">
+                    <label for="perf4">Test search/filter performance</label>
+                </div>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">Security & Access Control</h3>
+                <div class="checklist-item">
+                    <input type="checkbox" id="sec1" onchange="updateProgress()">
+                    <label for="sec1">Verify users cannot access unauthorized pages</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="sec2" onchange="updateProgress()">
+                    <label for="sec2">Test facility data isolation</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="sec3" onchange="updateProgress()">
+                    <label for="sec3">Verify role-based UI restrictions</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="sec4" onchange="updateProgress()">
+                    <label for="sec4">Test session timeout behavior</label>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" id="sec5" onchange="updateProgress()">
+                    <label for="sec5">Verify logout functionality</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" style="background: #f0f7ff; border-left: 4px solid var(--navy-blue);">
+            <h3 style="margin-top: 0; color: var(--navy-blue);">📝 Notes for Testing</h3>
+            <ul style="margin-left: 1.5rem; color: #666;">
+                <li>Test with different user roles (Staff, Facility Admin, Enterprise Manager)</li>
+                <li>Test with multiple facilities (if applicable)</li>
+                <li>Test edge cases (empty states, large datasets, concurrent actions)</li>
+                <li>Document any bugs or UX issues found</li>
+                <li>Note any missing features or incomplete implementations</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">🛡️ EnCompliance.io</div>
+            <div class="footer-text">
+                <p>&copy; 2025 EnCompliance.io. All rights reserved.</p>
+                <p>UX Testing Checklist - Comprehensive manual testing guide</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Theme toggle
+        function toggleTheme() {
+            document.body.classList.toggle('dark');
+            localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+        }
+
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark');
+        }
+
+        // Progress tracking
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked');
+            const total = checkboxes.length;
+            const completed = checked.length;
+            const percentage = Math.round((completed / total) * 100);
+            
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressFill').textContent = percentage + '%';
+            document.getElementById('progressText').textContent = percentage + '% Complete (' + completed + '/' + total + ')';
+            
+            // Save progress to localStorage
+            const checkedIds = Array.from(checked).map(cb => cb.id);
+            localStorage.setItem('checklistProgress', JSON.stringify(checkedIds));
+        }
+
+        // Load saved progress
+        function loadProgress() {
+            const saved = localStorage.getItem('checklistProgress');
+            if (saved) {
+                const checkedIds = JSON.parse(saved);
+                checkedIds.forEach(id => {
+                    const checkbox = document.getElementById(id);
+                    if (checkbox) {
+                        checkbox.checked = true;
+                    }
+                });
+                updateProgress();
+            }
+        }
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadProgress();
+        });
+    </script>
+</body>
+</html>
+
